@@ -1,0 +1,28 @@
+{
+    "name": "awakenweb/iridium-components-router",
+    "description": "Iridium Components Routing module",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "type": "library",
+    "authors":
+            [
+                {
+                    "name": "Mathieu Savelli",
+                    "email": "mathieu.savelli@awakenweb.fr",
+                    "homepage": "http://awakenweb.fr"
+                }
+            ],
+    "require": {
+        "php": ">=5.4.0",
+        "awakenweb/iridium-components-httpstack": "dev-master"
+    },
+    "require-dev": {
+        "atoum/atoum": "dev-master"
+    },
+    "autoload":
+            {
+                "psr-0": {"Iridium\\Components\\Router\\": ""}
+            },
+    "target-dir": "Iridium/Components/Router"
+}
+
