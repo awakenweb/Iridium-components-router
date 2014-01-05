@@ -61,7 +61,7 @@ For your routes, you have 4 predefined tokens you can use to match variable para
              
 If you have variable parameters in your route, the callback **must** accept its parameters in the same ordre as the request for later execution.
 
- Begining and ending `/` in the route are optionnal, as they are automaticall y added during the matching process.
+ Begining and ending `/` in the route are optionnal, as they are automatically added during the matching process.
  However, if you explicitely use an ending `/` , it will become mandatory:
 - if the route is `mySuperRoute`, `/mySuperRoute` and `/mySuperRoute/` will  both match
 - if the route is `mySuperRoute`, only `/mySuperRoute/` will match 
