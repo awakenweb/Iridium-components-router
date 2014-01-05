@@ -57,6 +57,8 @@ class Router implements RouterInterface
      * compares the request to all defined routes and search for a matching
      * handller.
      *
+     * Lazy loads the required handler if a class name has been provided instead of an object
+     *
      * @return array|null
      */
     public function match()
@@ -79,6 +81,14 @@ class Router implements RouterInterface
                 }
             }
         }
+        if ( is_array( $found_handller ) && is_string( $found_handller[ 0 ] ) ) {
+            $classname = $found_handller[ 0 ];
+            if ( class_exists( $classname , true ) ) {
+                $found_handller[ 0 ] = new $classname();
+            } else {
+                $found_handller = null;
+            }
+        }
 
         return array( 'callback' => $found_handller , 'parameters' => $params );
     }
@@ -87,8 +97,8 @@ class Router implements RouterInterface
      * define a route. The route follows a pattern that is later matched to
      * request URI
      *
-     * @param string   $pattern
-     * @param callable $handler
+     * @param string         $pattern
+     * @param callable|array $handler
      *
      * @return Iridium\Components\Router\RouterInterface
      */

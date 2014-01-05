@@ -7,6 +7,16 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 use atoum ,
     Iridium\Components\Router\Router as IrRouter;
 
+class thisIsATest
+{
+
+    public function thisIsNotARealFunction()
+    {
+        echo 'test';
+    }
+
+}
+
 class Router extends atoum
 {
 
@@ -99,7 +109,7 @@ class Router extends atoum
 
         $this->when( $_SERVER[ 'REQUEST_URI' ] = '/test' )
                 ->and( $result2                  = $router->match() )
-                ->variable( $result2[ 'callback'] )
+                ->variable( $result2[ 'callback' ] )
                 ->isCallable()
                 ->output( function () use ($result2) {
                     call_user_func_array( $result2[ 'callback' ] , $result2[ 'parameters' ] );
@@ -114,6 +124,38 @@ class Router extends atoum
                     call_user_func_array( $result3[ 'callback' ] , $result3[ 'parameters' ] );
                 } )
                 ->isEqualTo( '01-01-2014' );
+    }
+
+    public function testHandlerLazyLoading()
+    {
+        $_SERVER[ 'REQUEST_URI' ]    = '/test';
+        $_SERVER[ 'REQUEST_METHOD' ] = 'GET';
+        $reqMock                     = new \mock\Iridium\Components\HttpStack\Request();
+
+        $router = new IrRouter( $reqMock );
+        $router->defineRoute( '/test' , array( '\Iridium\Components\Router\tests\units\thisIsATest' , 'thisIsNotARealFunction' ) )
+                ->defineRoute( '/test/test2' , array( '\FakeClass' , 'thisIsNotARealFunction' ) );
+
+        $result = $router->match();
+
+        $this->mock( $reqMock )
+                ->wasCalled()
+                ->array( $result )
+                ->variable( $result[ 'callback' ] )
+                ->isCallable()
+                ->output( function () use ($result) {
+                    call_user_func_array( $result[ 'callback' ] , $result[ 'parameters' ] );
+                } )
+                ->isEqualTo( 'test' );
+
+$_SERVER[ 'REQUEST_URI' ]    = '/test/test2';
+        $result = $router->match();
+
+        $this->mock( $reqMock )
+                ->wasCalled()
+                ->array( $result )
+                ->variable( $result[ 'callback' ] )
+                ->isNull();
     }
 
 }

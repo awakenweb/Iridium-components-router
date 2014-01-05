@@ -3,7 +3,7 @@ Iridium Components: Router
 
 Routing module for the Iridium Framework. Requires Iridium Components HTTP Stack to work.
 
-This component allows you to define routes for your applicaiton, mapping requests to specific handlers, as long as they are valid PHP callbacks.
+This component allows you to define routes for your applicaiton, mapping requests to specific handlers, as long as they are valid PHP callbacks or an array containing a classname and a method name.
 You can define routes using regular expressions or some predifined patterns for variable parameters such as id, blog post slugs or anything else you want.
 
 This module will **not** execute the matching callback, it will just compare the request string to its list of routes and return an associative array containing:
@@ -40,7 +40,7 @@ and then run
 Usage
 -----
 
-First, you have to create the router and pass a HttpStack\Request to it.
+First, you have to create the router and pass an instance of HttpStack\Request to it.
 ```php
 <?php
 include('path/to/vendor/autoload.php');
@@ -72,11 +72,20 @@ For the route `article/:slug`, both `article/this-is-an-example` and `article/th
 ```php
 $router->defineRoute('/article/:date/', function($articledate){...});
 $router->defineMultipleRoutes(array(
-    'comments/:number'=> function($id){...},
+    'admin'=> array($adminController, 'indexAction'),
     'tags/:slug'=> function($categoryname){...},
-    'place/:number/:string/:string/:number' => function($number, $street, $city, $zipcode) {...}
+    'place/:number/:string/:string/:number' => function($number, $street, $city, $zipcode) {...},
+    '/whatYouWant/:number' => array('\namespace\of\some\Class', 'someMethod)
 ));
 ```
+
+As you can see, callbacks can be either:
+- an array containing the name of class and method to call. Instance of this class will be lazy loaded when required
+- an array containing an object and a method name
+- a closure
+- a procedural function name
+
+An array with a classname and a static method name are not allowed due to conflicts with the lazy loading process.
 
 ### Matching the routes and calling the callback
 The next step is to actaully match the request against the list of defined routes, and execute the result or send a negative response
