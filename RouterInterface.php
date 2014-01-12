@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2013 Mathieu.
+ * Copyright 2013-2014 Mathieu SAVELLI <mathieu.savelli@awakenweb.fr>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
