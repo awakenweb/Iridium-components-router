@@ -1,6 +1,8 @@
 Iridium Components: Router
 =========================
 
+[![Build Status](https://travis-ci.org/awakenweb/Iridium-components-router.png?branch=master)](https://travis-ci.org/awakenweb/Iridium-components-router)
+
 Routing module for the Iridium Framework. Requires Iridium Components HTTP Stack to work.
 
 This component allows you to define routes for your applicaiton, mapping requests to specific handlers, as long as they are valid PHP callbacks or an array containing a classname and a method name.
